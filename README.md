@@ -1,4 +1,4 @@
-# Pureganic-FrontEnd
+# Pureganic-BackEnd
 
 Pureagnic is an innovative e-commerce platform designed exclusively to connect farmers to buyers, empowering farmers to seamlessly showcase and market their agricultural products directly to consumers. This website is skillfully developed using the FULL MERN Stack technologies, offering a comprehensive range of CRUD (Create, Read, Update, Delete) operations for a seamless user experience for farmers.
 
