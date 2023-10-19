@@ -1,25 +1,47 @@
+//Load express module
 const express = require('express')
-const logger = require('morgan')
 const cors = require('cors')
 
-const ProductRouter = require('./routes/ProductRoute')
+//Load dotenv module
+require('dotenv').config()
 
-const PORT = process.env.PORT || 3001
+//Load Mongoose module
+const mongoose = require('mongoose')
 
-const db = require('./db')
-
+//Invoke express functionality
 const app = express()
 
+//Look for static file here (CSS/JS/Image/Video)
+// app.use(express.static("public"))
+
+//Require Multer
+// const multer = require("multer")
+
+//Port configuration
+const port = process.env.PORT
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 
-app.use('/', ProductRouter)
+//import routes
+const productRouter = require('./routes/ProductRoute')
 
-app.use('/', (req, res) => {
-  res.send(`connected`)
+//mount route
+app.use('/', productRouter)
+
+app.listen(port, () => {
+  console.log(`server is running on port ${port}`)
 })
 
-app.listen(PORT, () => {
-  console.log(`Running on ${PORT} . . .`)
-})
+//MongoDB Connection
+mongoose
+  .connect(process.env.mongoDBURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log('MongoDB connected')
+  })
+  .catch((err) => {
+    console.log('MongoDB is not connected' + err)
+  })
