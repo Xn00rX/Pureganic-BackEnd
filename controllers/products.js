@@ -11,7 +11,8 @@ const GetProducts = async (req, res) => {
 
 const CreateProduct = async (req, res) => {
   try {
-    const product = await Product.create({ ...req.body })
+    console.log(req.body)
+    const product = await Product.create(req.body)
     res.send(product)
   } catch (error) {
     throw error
