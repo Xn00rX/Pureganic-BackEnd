@@ -1,12 +1,12 @@
 //Load express module
-const express = require('express')
-const cors = require('cors')
+const express = require("express")
+const cors = require("cors")
 
 //Load dotenv module
-require('dotenv').config()
+require("dotenv").config()
 
 //Load Mongoose module
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 //Invoke express functionality
 const app = express()
@@ -24,10 +24,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //import routes
-const productRouter = require('./routes/ProductRoute')
+const productRouter = require("./routes/ProductRoute")
+const cartRouter = require("./routes/cart")
 
 //mount route
-app.use('/', productRouter)
+app.use("/", productRouter)
+app.use("/", cartRouter)
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`)
@@ -37,11 +39,11 @@ app.listen(port, () => {
 mongoose
   .connect(process.env.mongoDBURL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('MongoDB connected')
+    console.log("MongoDB connected")
   })
   .catch((err) => {
-    console.log('MongoDB is not connected' + err)
+    console.log("MongoDB is not connected" + err)
   })

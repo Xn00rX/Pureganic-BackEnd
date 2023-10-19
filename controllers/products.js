@@ -1,9 +1,9 @@
-const { Product } = require('../models/Product')
+const Product = require("../models/Product")
 
 const GetProducts = async (req, res) => {
   try {
     const products = await Product.find({})
-    res.send(products)
+    res.json(products)
   } catch (error) {
     throw error
   }
@@ -35,9 +35,9 @@ const DeleteProduct = async (req, res) => {
   try {
     await Product.deleteOne({ _id: req.params.product_id })
     res.send({
-      msg: 'Product Removed',
+      msg: "Product Removed",
       payload: req.params.product_id,
-      status: 'OK'
+      status: "OK",
     })
   } catch (error) {
     throw error
@@ -48,5 +48,5 @@ module.exports = {
   GetProducts,
   CreateProduct,
   UpdateProduct,
-  DeleteProduct
+  DeleteProduct,
 }
