@@ -12,10 +12,9 @@ const mongoose = require('mongoose')
 const app = express()
 
 //Look for static file here (CSS/JS/Image/Video)
-// app.use(express.static("public"))
+app.use(express.static('public'))
 
-//Require Multer
-// const multer = require("multer")
+
 
 //Port configuration
 const port = process.env.PORT
@@ -26,10 +25,17 @@ app.use(express.urlencoded({ extended: true }))
 //import routes
 const productRouter = require('./routes/ProductRoute')
 const categoryRouter = require('./routes/CategoryRoute')
+const userRouter = require ('./routes/user')
+const dumyRouter = require ('./routes/dumy')
+const imageRouter = require ('./routes/imageUpload')
 
 //mount route
+
 app.use('/', productRouter)
 app.use('/', categoryRouter)
+app.use('/', userRouter)
+app.use('/', dumyRouter)
+app.use('/', imageRouter)
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`)

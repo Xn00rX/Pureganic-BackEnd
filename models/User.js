@@ -1,12 +1,17 @@
 const mongoose = require("mongoose")
 
 const userSchema = mongoose.Schema({
-  userImage: {
-    type: String,
-  },
   seller: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: 'buyer'
+  },
+  image: {
+    type: String,
+
+  },
+  gender: {
+    type: String,
+    default: 'male'
   },
   firstName: {
     type: String,
@@ -19,6 +24,9 @@ const userSchema = mongoose.Schema({
     required: true,
     minLength: [3, "Your last name should be longer than 3 characters"],
     maxLength: [70, "Last name is too long"],
+  },
+  image: {
+    type: String,
   },
   phoneNumber: {
     type: Number,
@@ -37,6 +45,9 @@ const userSchema = mongoose.Schema({
     required: true,
     minLength: [8, "password is weak"],
   },
+  dateOfBirth: {
+    type: Date, 
+  }
 })
 
 const User = mongoose.model("User", userSchema)
