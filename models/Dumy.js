@@ -3,23 +3,23 @@ const mongoose = require("mongoose")
 const dumySchema = mongoose.Schema({
   firstName: {
     type: String,
-    minlength: 2, // Minimum length of 2 characters
-    maxlength: 50 // Maximum length of 50 characters
+    minlength: 2,
+    maxlength: 50 
   },
   lastName: {
     type: String,
-    minlength: 2, // Minimum length of 2 characters
-    maxlength: 50 // Maximum length of 50 characters
+    minlength: 2, 
+    maxlength: 50 
   },
   email: {
     type: String,
-    minlength: 5, // Minimum length of 5 characters
-    maxlength: 255 // Maximum length of 255 characters
+    minlength: 5, 
+    maxlength: 255 
   },
   password: {
     type: String,
-    minlength: 6, // Minimum length of 6 characters
-    maxlength: 255 // Maximum length of 255 characters
+    minlength: 6,
+    maxlength: 255 
   },
   image: {
     type: String
@@ -34,10 +34,14 @@ const dumySchema = mongoose.Schema({
   },
   phonenumber: {
     type: Number,
-    minlength: 12, // Minimum length of 10 digits
-    maxlength: 12 // Maximum length of 15 digits
+    minlength: 12, 
+    maxlength: 12 
   }
-})
+}
+,{
+  timestamps: true 
+}
+)
 
 const Dumy = mongoose.model("Dumy", dumySchema)
 module.exports = Dumy

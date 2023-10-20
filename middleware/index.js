@@ -1,7 +1,5 @@
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-
 
 
 const APP_SECRET = process.env.APP_SECRET
@@ -29,6 +27,7 @@ const verifyToken = (req, res, next) => {
      'Verify Token Error!' })
   }
 }
+
 
 const stripToken = (req, res, next) => {
   try {

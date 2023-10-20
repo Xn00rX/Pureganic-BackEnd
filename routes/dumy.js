@@ -6,7 +6,7 @@ const multer = require('multer')
 
 const path = require('path')
 
-router.use('/images', express.static(path.join(__dirname, 'public/images')))
+
 
 const storage = multer.diskStorage({
   destination: 'public/images/',
@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
 })
 router.post('/apilogin',  controller.dumyLogin)
 router.post('/apiupdate', controller.dumyupdatepassword)
+router.use('/images', express.static(path.join(__dirname, 'public/images')))
 
 
 

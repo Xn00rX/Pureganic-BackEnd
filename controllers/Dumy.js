@@ -8,7 +8,7 @@ const salt = 10
 exports.dumyregister = async (req, res) => {
   try {
     console.log('Received data:', req.body)
-    console.log('File', req.file.path)
+    // console.log('File', req.file.path)
 
     const email = req.body.email
     const password = req.body.password
@@ -18,7 +18,7 @@ exports.dumyregister = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hash,
-      image: req.file ? req.file.filename : null,
+      // image: req.file ? req.file.filename : null,
       gender: req.body.gender,
       role: req.body.role,
       phonenumber: req.body.phonenumber,
@@ -49,18 +49,26 @@ exports.dumyregister = async (req, res) => {
     const { email, password } = req.body
     try {
       const user = await Dumy.findOne({ email })
-      const userimage = user.image
-      const username= user.firstName
+
       if (!user) {
         return res.status(401).send('User not found')
       }
       const passwordMatch = await bcrypt.compare(password, user.password)
       console.log(user.image)
-  
-      if (!passwordMatch) {
-        return res.status(401).send('Incorrect password')
+      if(passwordMatch){
+        let payload={
+          id: user.id,
+          email: user.email,
+          userimage: user.image
+        }
+        if (!passwordMatch) {
+          return res.status(401).send('Incorrect password')
+        }
+        let token = middleware.createToken(payload)
+        return res.send({user:payload , token})
+
       }
-      res.status(200).json({ userimage , username })
+    
     } catch (error) {
       console.error('Error:', error)
       res.status(500).send('Login failed')
