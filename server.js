@@ -25,17 +25,15 @@ app.use(express.urlencoded({ extended: true }))
 //import routes
 const productRouter = require('./routes/ProductRoute')
 const categoryRouter = require('./routes/CategoryRoute')
-const userRouter = require ('./routes/user')
-const dumyRouter = require ('./routes/dumy')
-const imageRouter = require ('./routes/imageUpload')
+const userRouter = require ('./routes/UserRouter')
+
 
 //mount route
 
 app.use('/', productRouter)
 app.use('/', categoryRouter)
 app.use('/', userRouter)
-app.use('/', dumyRouter)
-app.use('/', imageRouter)
+
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`)

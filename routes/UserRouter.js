@@ -1,6 +1,9 @@
 const express = require('express')
-const controller = require('../controllers/Dumy')
+const user_CTRL = require('../controllers/userCTRL')
 const router = express.Router()
+
+const middleware = require('../middleware')
+
 
 const multer = require('multer')
 
@@ -16,14 +19,20 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.post('/dumy', upload.single('image'), controller.dumyregister)
+router.post('/signup', upload.single('image'), user_CTRL.user_signup_post)
+
 router.get('/', (req, res) => {
   res.send('connected')
 })
-router.post('/apilogin',  controller.dumyLogin)
-router.post('/apiupdate', controller.dumyupdatepassword)
+router.post('/signin',  user_CTRL.user_login_post)
+router.post('/userupdate', user_CTRL.dumyupdatepassword)
 router.use('/images', express.static(path.join(__dirname, 'public/images')))
 
 
-
+router.get(
+  '/session',
+  middleware.stripToken,
+  middleware.verifyToken,
+  user_CTRL.CheckSession
+)
 module.exports = router

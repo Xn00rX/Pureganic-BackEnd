@@ -1,15 +1,14 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-
 const APP_SECRET = process.env.APP_SECRET
 
-const createToken = (payload) => {
+exports.createToken = (payload) => {
   let token = jwt.sign(payload, APP_SECRET)
   return token
 }
 
-const verifyToken = (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
   const { token } = res.locals
 
   try {
@@ -29,7 +28,7 @@ const verifyToken = (req, res, next) => {
 }
 
 
-const stripToken = (req, res, next) => {
+exports.stripToken = (req, res, next) => {
   try {
     const token = req.headers['authorization'].split
     (' ')[1]
@@ -46,8 +45,3 @@ const stripToken = (req, res, next) => {
   }
 }
 
-module.exports = {
-  createToken,
-  stripToken,
-  verifyToken
-}
