@@ -77,12 +77,20 @@ const deleteFromCart = async (req, res) => {
     const productId = req.body.id
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
-    let productIndex = cart.product.findIndex((p) => p._id == productId)
-    let productItem = cart.product[productIndex]
+    let productIndex = cart.cartProducts.findIndex(
+      (p) => p.product == productId
+    )
+    let deletedProduct = cart.cartProducts[productIndex]
+    if (deletedProduct.quantity > 1) {
+      deletedProduct.quantity--
+    } else {
+      cart.cartProducts.splice(productIndex, 1)
+    }
     // let cproduct = cart.product.find(productId)
-    console.log("item id" + productItem)
-    cart.product.splice(productIndex, 1)
-    // cart.product.splice(productIndex, 1)
+    // console.log("item id" + productItem)
+    // console.log("deletedprod" + productItem)
+    console.log("test" + productIndex)
+
     cart.save()
     res.send(cart)
   } catch (error) {
