@@ -17,15 +17,15 @@ const controller = require('../controllers/products')
 const router = express.Router()
 
 router.get('/apiproduct', controller.GetProducts)
-//router.post('/apiproduct', controller.CreateProduct)
+router.post('/apiproduct', controller.CreateProduct)
 router.put('/apiproduct/:product_id', controller.UpdateProduct)
 router.delete('/apiproduct/:product_id', controller.DeleteProduct)
 
 //upload picture new routes
-router.post(
-  '/apiproduct',
-  upload.single('productImage'),
-  controller.CreateProduct
-)
+//router.post(
+//'/apiproduct',
+//upload.single('productImage'),
+//controller.CreateProduct
+//)
 
 module.exports = router
