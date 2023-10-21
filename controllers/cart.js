@@ -16,21 +16,50 @@ const addToCart = async (req, res) => {
   try {
     const userId = req.params.id
     const productId = req.body.id
+    // let quantity = req.body.quantity
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
     let product = await Product.findById(productId)
+
+    // const productExit
+
     if (!cart) {
       console.log("Create")
       let cart = new Cart({
         user: req.params.id,
-        product: req.body.id,
+        cartProducts: [{ product: req.body.id }],
       })
+      // quantity = 1
       cart.save()
+      // quantity++
       res.send(cart)
     } else {
       console.log("Update")
-      // let productExit = await product.findById(productId)
-      cart.product.push(productId)
+      let productExit = await cart.cartProducts.find(
+        (p) => p.product == productId
+      )
+      if (productExit) {
+        productExit.quantity++
+        // console.log("product exit" + productExit)
+      } else {
+        cart.cartProducts.push({ product: req.body.id })
+      }
+      // Cart.findOneAndUpdate(
+      //   { user: userId },
+      //   {
+      //     cartProducts.push({ product: req.body.id }),
+      //   }
+      // )
+
+      // cart.product.push(productId)
+      // if (!productExit) {
+
+      //   // quantity = 1
+      // } else {
+      //   quantity++
+      // }
+
+      // quantity++
       cart.save()
       res.send(cart)
     }
