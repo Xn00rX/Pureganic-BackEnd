@@ -5,8 +5,14 @@ const Product = require("../models/Product")
 const getCart = async (req, res) => {
   try {
     const userId = req.params.id
+
     const cart = await Cart.findOne({ user: userId })
-    res.json(cart)
+    const product = cart.cartProducts[0].product
+    // let p = cart.cartProducts.populate("product")
+    // res.json(product)
+    console.log("heereee", cart.populate("product"))
+    console.log(product)
+    // res.json(cart)
   } catch (error) {
     console.log(error)
   }
@@ -16,12 +22,10 @@ const addToCart = async (req, res) => {
   try {
     const userId = req.params.id
     const productId = req.body.id
-    // let quantity = req.body.quantity
+
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
     let product = await Product.findById(productId)
-
-    // const productExit
 
     if (!cart) {
       console.log("Create")
@@ -29,9 +33,7 @@ const addToCart = async (req, res) => {
         user: req.params.id,
         cartProducts: [{ product: req.body.id }],
       })
-      // quantity = 1
       cart.save()
-      // quantity++
       res.send(cart)
     } else {
       console.log("Update")
@@ -40,32 +42,13 @@ const addToCart = async (req, res) => {
       )
       if (productExit) {
         productExit.quantity++
-        // console.log("product exit" + productExit)
       } else {
         cart.cartProducts.push({ product: req.body.id })
       }
-      // Cart.findOneAndUpdate(
-      //   { user: userId },
-      //   {
-      //     cartProducts.push({ product: req.body.id }),
-      //   }
-      // )
 
-      // cart.product.push(productId)
-      // if (!productExit) {
-
-      //   // quantity = 1
-      // } else {
-      //   quantity++
-      // }
-
-      // quantity++
       cart.save()
       res.send(cart)
     }
-
-    // let price = product.productPrice
-    // let name = product.productName
   } catch (error) {
     console.log(error)
   }
