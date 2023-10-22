@@ -9,8 +9,6 @@ const multer = require('multer')
 
 const path = require('path')
 
-
-
 const storage = multer.diskStorage({
   destination: 'public/images/',
   filename: (req, file, cb) => {
@@ -20,15 +18,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/signup', upload.single('image'), user_CTRL.user_signup_post)
+router.post('/signin',  user_CTRL.user_login_post)
+router.post('/userupdate', user_CTRL.dumyupdatepassword)
+
+
+router.use('/images', express.static(path.join(__dirname, 'public/images')))
+router.post('/updateprofile/:id',upload.single('image') , user_CTRL.update_profile_put)
+
+
+
 
 router.get('/', (req, res) => {
   res.send('connected')
 })
-router.post('/signin',  user_CTRL.user_login_post)
-router.post('/userupdate', user_CTRL.dumyupdatepassword)
-router.use('/images', express.static(path.join(__dirname, 'public/images')))
-
-
 router.get(
   '/session',
   middleware.stripToken,
