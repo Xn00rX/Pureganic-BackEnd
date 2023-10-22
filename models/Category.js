@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const categorySchema = mongoose.Schema({
   catgName: String,
@@ -7,10 +7,10 @@ const categorySchema = mongoose.Schema({
   product: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-    },
-  ],
+      ref: 'Product'
+    }
+  ]
 })
 
-const Category = mongoose.model("Category", categorySchema)
-module.exports = { Category }
+const Category = mongoose.model('Category', categorySchema)
+module.exports = Category
