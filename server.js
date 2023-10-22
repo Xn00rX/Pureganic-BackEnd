@@ -12,10 +12,7 @@ const mongoose = require("mongoose")
 const app = express()
 
 //Look for static file here (CSS/JS/Image/Video)
-// app.use(express.static("public"))
-
-//Require Multer
-// const multer = require("multer")
+app.use(express.static("public"))
 
 //Port configuration
 const port = process.env.PORT
