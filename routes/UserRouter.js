@@ -19,7 +19,7 @@ const upload = multer({ storage: storage })
 
 router.post('/signup', upload.single('image'), user_CTRL.user_signup_post)
 router.post('/signin',  user_CTRL.user_login_post)
-router.post('/userupdate', user_CTRL.dumyupdatepassword)
+router.post('/updatepassword/:id', user_CTRL.dumyupdatepassword)
 
 
 router.use('/images', express.static(path.join(__dirname, 'public/images')))

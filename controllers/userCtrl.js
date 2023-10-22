@@ -62,6 +62,7 @@ exports.user_signup_post = async (req, res) => {
           email: user.email,
           userimage: user.image,
           username:user.firstName,
+          phonenumber:user.phonenumber
         }
         if (!passwordMatch) {
           return res.send('Incorrect password')
@@ -80,27 +81,36 @@ exports.user_signup_post = async (req, res) => {
 
 
   exports.dumyupdatepassword = async (req, res) => {
-    console.log('Received data for password update:', req.body)
-    const { email, password, newpassword } = req.body
+
+    const userId = req.params.id
+    const updatedUserData = req.body
+  
+    const { currentPassword, newPassword } = updatedUserData
+  
     try {
-      const user = await User.findOne({ email })
+      const user = await User.findById(userId)
+  
       if (!user) {
-        return res.send('User not found')
+        return res.status(404).json({ message: 'User not found' })
       }
-      const passwordMatch = await bcrypt.compare(password, user.password)
+  
+      const passwordMatch = await bcrypt.compare(currentPassword, user.password)
+  
       if (!passwordMatch) {
-        return res.send('Incorrect password')
+        return res.json({ message: 'Incorrect password' })
       } else {
-        const hash = bcrypt.hashSync(newpassword, saltRounds)
+        const hash = await bcrypt.hash(newPassword, salt)
         user.password = hash
-        user.save()
+        await user.save()
         res.json({ message: 'Password updated successfully' })
       }
     } catch (error) {
       console.error('Error:', error)
-      res.send('Password update failed')
+      res.json({ message: 'Password update failed' })
     }
   }
+
+
   exports.CheckSession = async (req, res) => {
     const { payload } = res.locals
     console.log(res.locals)
@@ -121,7 +131,7 @@ exports.user_signup_post = async (req, res) => {
         updatedUserData.image = req.file.filename
       }
   
-      const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, { new: true })
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData)
   
       if (!updatedUser) {
         return res.status(404).json({ message: 'User not found' })
