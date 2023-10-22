@@ -6,6 +6,20 @@ const middleware = require('../middleware')
 
 const salt = 10
 
+
+exports.user_info_get = async (req,res) =>{
+  const userId = req.params.id
+  const updatedUserData = req.body
+  const user = await User.findById(userId)
+  console.log(user)
+  res.json(user)
+  
+  
+
+
+}
+
+
 exports.user_signup_post = async (req, res) => {
   try {
     console.log('Received data:', req.body)
