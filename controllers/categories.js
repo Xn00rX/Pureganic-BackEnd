@@ -12,7 +12,14 @@ const GetCategories = async (req, res) => {
 
 const CreateCategory = async (req, res) => {
   try {
-    const category = await Category.create(req.body)
+    console.log(req.body)
+    console.log(req.file)
+
+    const category = Category(req.body)
+
+    category.catgImage = '/uploads/' + req.file.filename
+    await category.save(req.body)
+
     res.send(category)
   } catch (error) {
     throw error

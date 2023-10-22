@@ -12,7 +12,14 @@ const GetProducts = async (req, res) => {
 
 const CreateProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body)
+    console.log(req.body)
+    console.log(req.file)
+
+    const product = Product(req.body)
+
+    product.productImage = '/uploads/' + req.file.filename
+    await product.save(req.body)
+
     res.send(product)
   } catch (error) {
     throw error

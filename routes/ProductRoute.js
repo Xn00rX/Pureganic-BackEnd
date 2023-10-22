@@ -22,10 +22,10 @@ router.put("/apiproduct/:product_id", controller.UpdateProduct)
 router.delete("/apiproduct/:product_id", controller.DeleteProduct)
 
 //upload picture new routes
-//router.post(
-//'/apiproduct',
-//upload.single('productImage'),
-//controller.CreateProduct
-//)
+router.post(
+  "/apiproduct",
+  upload.single("productImage"),
+  controller.CreateProduct
+)
 
 module.exports = router
