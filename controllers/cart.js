@@ -7,12 +7,37 @@ const getCart = async (req, res) => {
     const userId = req.params.id
 
     const cart = await Cart.findOne({ user: userId })
-    const product = cart.cartProducts[0].product
+      //.populate("cartProducts")
+
+      .populate({
+        path: "cartProducts",
+        populate: {
+          path: "product",
+        },
+      })
+    console.log(cart.cartProducts)
+    // console.log(cart.cartProducts[0])
+    // const product = cart.cartProducts[0].product
     // let p = cart.cartProducts.populate("product")
-    // res.json(product)
-    console.log("heereee", cart.populate("product"))
-    console.log(product)
-    // res.json(cart)
+    // // res.json(product)
+    // console.log(
+    //   "test",
+    //   cart.populate({
+    //     path: "cartProducts",
+    //     populate: {
+    //       path: "product",
+    //     },
+    //   })
+    // )
+    // console.log(
+    //   cart.populate({
+    //     path: "cartProducts",
+    //     populate: {
+    //       path: "product",
+    //     },
+    //   })
+    // )
+    res.json(cart)
   } catch (error) {
     console.log(error)
   }
@@ -22,7 +47,7 @@ const addToCart = async (req, res) => {
   try {
     const userId = req.params.id
     const productId = req.body.id
-
+    console.log(req.body)
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
     let product = await Product.findById(productId)
@@ -41,7 +66,23 @@ const addToCart = async (req, res) => {
         (p) => p.product == productId
       )
       if (productExit) {
-        productExit.quantity++
+        if (req.body.key == "add") {
+          productExit.quantity++
+        } else if (req.body.key == "remove") {
+          ///////////////
+          let productIndex = cart.cartProducts.findIndex(
+            (p) => p.product == productId
+          )
+          let deletedProduct = cart.cartProducts[productIndex]
+          if (deletedProduct.quantity > 1) {
+            deletedProduct.quantity--
+          } else {
+            cart.cartProducts.splice(productIndex, 1)
+          }
+          ///////////////
+
+          // productExit.quantity--
+        }
       } else {
         cart.cartProducts.push({ product: req.body.id })
       }
