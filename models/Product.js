@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema({
   productName: String,
   productDesc: String,
   productPrice: String,
-  //productImage: String,
+  productImage: String,
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category'
