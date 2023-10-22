@@ -6,7 +6,23 @@ const middleware = require('../middleware')
 
 const salt = 10
 
+
+exports.user_info_get = async (req,res) =>{
+  console.log('a')
+  const userId = req.params.id
+  const updatedUserData = req.body
+  const user = await User.findById(userId)
+  console.log(user)
+  res.json(user)
+  
+  
+
+
+}
+
+
 exports.user_signup_post = async (req, res) => {
+  console.log('b')
   try {
     console.log('Received data:', req.body)
     console.log('File', req.file.path)
@@ -46,6 +62,7 @@ exports.user_signup_post = async (req, res) => {
 
 
   exports.user_login_post = async (req, res) => {
+    console.log('cc')
     console.log('Received data for login:', req.body)
     const { email, password } = req.body
     try {
@@ -81,7 +98,7 @@ exports.user_signup_post = async (req, res) => {
 
 
   exports.dumyupdatepassword = async (req, res) => {
-
+      console.log('nn')
     const userId = req.params.id
     const updatedUserData = req.body
   
@@ -120,6 +137,7 @@ exports.user_signup_post = async (req, res) => {
 
 
   exports.update_profile_put = async (req, res) => {
+    console.log('ccc')
     try {
       const userId = req.params.id
       const updatedUserData = req.body

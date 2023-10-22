@@ -1,7 +1,7 @@
 //Load express module
 const express = require('express')
 const cors = require('cors')
-
+const logger = require('morgan')
 //Load dotenv module
 require('dotenv').config()
 
@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 //Invoke express functionality
 const app = express()
 
+
 //Look for static file here (CSS/JS/Image/Video)
 app.use(express.static('public'))
 
@@ -19,6 +20,10 @@ const port = process.env.PORT
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(logger('dev'))
+
+
+
 
 //import routes
 const productRouter = require('./routes/ProductRoute')
