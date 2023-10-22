@@ -33,13 +33,13 @@ exports.user_signup_post = async (req, res) => {
       })
       .catch((error) => {
         console.error('Error:', error)
-        res.status(500).send('Error while saving data')
+        res.send('Error while saving data')
       })
 
     
   } catch (error) {
     console.log(error)
-    res.status(500).send('Internal Server Error')
+    res.send('Internal Server Error')
   }
 }
 
@@ -52,7 +52,7 @@ exports.user_signup_post = async (req, res) => {
       const user = await User.findOne({ email })
 
       if (!user) {
-        return res.status(401).send('User not found')
+        return res.send('User not found')
       }
       const passwordMatch = await bcrypt.compare(password, user.password)
       console.log(user.image)
@@ -60,10 +60,12 @@ exports.user_signup_post = async (req, res) => {
         let payload={
           id: user.id,
           email: user.email,
-          userimage: user.image
+          userimage: user.image,
+          username:user.firstName,
+          phonenumber:user.phonenumber
         }
         if (!passwordMatch) {
-          return res.status(401).send('Incorrect password')
+          return res.send('Incorrect password')
         }
         let token = middleware.createToken(payload)
         console.log(token)
@@ -73,34 +75,38 @@ exports.user_signup_post = async (req, res) => {
     
     } catch (error) {
       console.error('Error:', error)
-      res.status(500).send('Login failed')
+      res.send('Login failed')
     }
   }
 
 
   exports.dumyupdatepassword = async (req, res) => {
-    console.log('Received data for password update:', req.body)
-    const { email, password, newpassword } = req.body
-    
+
+    const userId = req.params.id
+    const updatedUserData = req.body
+  
+    const { currentPassword, newPassword } = updatedUserData
+  
     try {
-      const user = await User.findOne({ email })
+      const user = await User.findById(userId)
+  
       if (!user) {
-        return res.status(401).send('User not found')
+        return res.status(404).json({ message: 'User not found' })
       }
-      
-      const passwordMatch = await bcrypt.compare(password, user.password)
-      
+  
+      const passwordMatch = await bcrypt.compare(currentPassword, user.password)
+  
       if (!passwordMatch) {
-        return res.status(401).send('Incorrect password')
+        return res.json({ message: 'Incorrect password' })
       } else {
-        const hash = bcrypt.hashSync(newpassword, saltRounds)
+        const hash = await bcrypt.hash(newPassword, salt)
         user.password = hash
-        user.save()
-        res.status(200).json({ message: 'Password updated successfully' })
+        await user.save()
+        res.json({ message: 'Password updated successfully' })
       }
     } catch (error) {
       console.error('Error:', error)
-      res.status(500).send('Password update failed')
+      res.json({ message: 'Password update failed' })
     }
   }
 
@@ -109,4 +115,31 @@ exports.user_signup_post = async (req, res) => {
     const { payload } = res.locals
     console.log(res.locals)
     res.send(payload)
+  }
+
+
+
+  exports.update_profile_put = async (req, res) => {
+    try {
+      const userId = req.params.id
+      const updatedUserData = req.body
+
+      console.log(userId)
+      console.log(updatedUserData)
+
+      if (req.file) {
+        updatedUserData.image = req.file.filename
+      }
+  
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData)
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' })
+      }
+  
+      return res.json(updatedUser)
+    } catch (error) {
+      console.error(error)
+      return res.json({ message: 'Internal server error' })
+    }
   }
