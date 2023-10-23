@@ -5,10 +5,8 @@ const Product = require("../models/Product")
 const getCart = async (req, res) => {
   try {
     const userId = req.params.id
-
     const cart = await Cart.findOne({ user: userId })
       //.populate("cartProducts")
-
       .populate({
         path: "cartProducts",
         populate: {
@@ -16,27 +14,6 @@ const getCart = async (req, res) => {
         },
       })
     console.log(cart.cartProducts)
-    // console.log(cart.cartProducts[0])
-    // const product = cart.cartProducts[0].product
-    // let p = cart.cartProducts.populate("product")
-    // // res.json(product)
-    // console.log(
-    //   "test",
-    //   cart.populate({
-    //     path: "cartProducts",
-    //     populate: {
-    //       path: "product",
-    //     },
-    //   })
-    // )
-    // console.log(
-    //   cart.populate({
-    //     path: "cartProducts",
-    //     populate: {
-    //       path: "product",
-    //     },
-    //   })
-    // )
     res.json(cart)
   } catch (error) {
     console.log(error)
@@ -45,9 +22,10 @@ const getCart = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
+    console.log("help")
     const userId = req.params.id
     const productId = req.body.id
-    console.log(req.body)
+    console.log("test" + req.body)
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
     let product = await Product.findById(productId)
@@ -56,7 +34,7 @@ const addToCart = async (req, res) => {
       console.log("Create")
       let cart = new Cart({
         user: req.params.id,
-        cartProducts: [{ product: req.body.id }],
+        cartProducts: [{ product: productId }],
       })
       cart.save()
       res.send(cart)

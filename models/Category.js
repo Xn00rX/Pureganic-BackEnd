@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const categorySchema = mongoose.Schema({
   catgName: String,
   catgDesc: String,
-  catgImage: String
+  catgImage: String,
   //product: [
   //   {
   //     type: mongoose.Schema.Types.ObjectId,

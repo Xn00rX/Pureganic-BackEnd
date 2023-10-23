@@ -38,3 +38,5 @@ router.get(
   user_CTRL.CheckSession
 )
 module.exports = router
+
+router.get('/userinfo/:id', user_CTRL.user_info_get)
