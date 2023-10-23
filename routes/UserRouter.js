@@ -15,28 +15,33 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`)
   }
 })
+
 const upload = multer({ storage: storage })
 
+
+//Post Methods
 router.post('/signup', upload.single('image'), user_CTRL.user_signup_post)
 router.post('/signin',  user_CTRL.user_login_post)
 router.post('/updatepassword/:id', user_CTRL.dumyupdatepassword)
-
-
-router.use('/images', express.static(path.join(__dirname, 'public/images')))
 router.post('/updateprofile/:id',upload.single('image') , user_CTRL.update_profile_put)
 
+//Use Methods
+router.use('/images', express.static(path.join(__dirname, 'public/images')))
 
 
-
+//Get Https Methods
 router.get('/', (req, res) => {
-  res.send('connected')
+  res.send('Connected Its Working, Check Your Front End ')
 })
+
 router.get(
   '/session',
   middleware.stripToken,
   middleware.verifyToken,
   user_CTRL.CheckSession
 )
-module.exports = router
 
 router.get('/userinfo/:id', user_CTRL.user_info_get)
+
+
+module.exports = router
