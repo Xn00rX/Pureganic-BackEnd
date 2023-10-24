@@ -10,13 +10,9 @@ const salt = 10
 exports.user_info_get = async (req,res) =>{
   console.log('a')
   const userId = req.params.id
-  const updatedUserData = req.body
   const user = await User.findById(userId)
   console.log(user)
   res.json(user)
-  
-  
-
 
 }
 
