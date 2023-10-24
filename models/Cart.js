@@ -9,6 +9,7 @@ const cartSchema = mongoose.Schema({
     {
       product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
       quantity: { type: Number, default: 1 },
+      event:{type: mongoose.Schema.Types.ObjectId, ref: "Event"}
     },
   ],
   paid: { type: Boolean, default: false },
