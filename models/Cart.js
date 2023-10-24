@@ -12,6 +12,7 @@ const cartSchema = mongoose.Schema({
       event:{type: mongoose.Schema.Types.ObjectId, ref: "Event"}
     },
   ],
+  paid: { type: Boolean, default: false },
 })
 
 const Cart = mongoose.model("Cart", cartSchema)
