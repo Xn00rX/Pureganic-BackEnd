@@ -1,7 +1,8 @@
 //Load express module
 const express = require("express")
-const cors = require("cors")
 const logger = require("morgan")
+const cors = require("cors")
+
 //Load dotenv module
 require("dotenv").config()
 
@@ -16,6 +17,7 @@ app.use(express.static("public"))
 //Port configuration
 const port = process.env.PORT
 app.use(cors())
+app.use(logger("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(logger("dev"))
