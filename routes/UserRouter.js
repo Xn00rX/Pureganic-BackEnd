@@ -26,7 +26,7 @@ router.post('/updatepassword/:id', user_CTRL.dumyupdatepassword)
 router.post('/updateprofile/:id',upload.single('image') , user_CTRL.update_profile_put)
 
 //Use Methods
-router.use('/images', express.static(path.join(__dirname, 'public/images')))
+
 
 
 //Get Https Methods

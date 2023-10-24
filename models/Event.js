@@ -5,6 +5,9 @@ const EventSchema = mongoose.Schema({
   Name: String,
   Price: Number,
   EventImage: String,
+  EventLocation: String,
+  
+  Date:Date,
   Latitude:Number,
   Longitude:Number,
 

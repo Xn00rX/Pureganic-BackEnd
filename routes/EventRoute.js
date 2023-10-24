@@ -18,6 +18,7 @@ const router = express.Router()
 
 router.post('/addevent', upload.single('EventImage'),controller.event_add_post)
 router.get('/showevents', controller.event_show_get)
+router.delete('/eventid/:id', controller.event_delete_get)
 
 
 module.exports = router
