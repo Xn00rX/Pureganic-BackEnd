@@ -19,6 +19,8 @@ const router = express.Router()
 router.get('/apiproduct', controller.GetProducts)
 //router.post('/apiproduct', controller.CreateProduct)
 router.put('/apiproduct/:product_id', controller.UpdateProduct)
+router.get('/apiproduct/:product_id', controller.GetProduct)
+
 router.delete('/apiproduct/:product_id', controller.DeleteProduct)
 
 //upload picture new routes

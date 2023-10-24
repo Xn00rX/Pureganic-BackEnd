@@ -3,17 +3,16 @@ const Category = require('../models/Category')
 
 const GetProducts = async (req, res) => {
   try {
-    const products = await Product.find({})
+    const products = await Product.find({}).populate('category')
+    res.send(products)
+  } catch (error) {
+    throw error
+  }
+}
 
-    // product.save().then(() => {
-    //   req.body.category.forEach((category) => {
-    //     Category.findById(category).then((category) => {
-    //       category.product.push(product)
-    //       category.save()
-    //     })
-    //   })
-    // })
-
+const GetProduct = async (req, res) => {
+  try {
+    const products = await Product.findById(req.params.product_id)
     res.send(products)
   } catch (error) {
     throw error
@@ -25,10 +24,15 @@ const CreateProduct = async (req, res) => {
     console.log(req.body)
     console.log(req.file)
 
-    const product = Product(req.body)
+    const product = await Product(req.body)
 
     product.productImage = '/uploads/' + req.file.filename
     await product.save(req.body)
+    console.log(product.category)
+    const category = await Category.findById(product.category)
+    console.log(category)
+    category.product.push(product._id)
+    await category.save()
 
     res.send(product)
   } catch (error) {
@@ -66,5 +70,6 @@ module.exports = {
   GetProducts,
   CreateProduct,
   UpdateProduct,
-  DeleteProduct
+  DeleteProduct,
+  GetProduct
 }

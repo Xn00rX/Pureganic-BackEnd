@@ -3,13 +3,21 @@ const Category = require('../models/Category')
 
 const GetCategories = async (req, res) => {
   try {
-    const categories = await Category.find({}) //.populate('product')
+    const categories = await Category.find({}).populate('product')
     res.send(categories)
   } catch (error) {
     throw error
   }
 }
 
+const GetCategory = async (req, res) => {
+  try {
+    const categories = await Category.findById(req.params.category_id)
+    res.send(categories)
+  } catch (error) {
+    throw error
+  }
+}
 const CreateCategory = async (req, res) => {
   try {
     console.log(req.body)
@@ -56,5 +64,6 @@ module.exports = {
   GetCategories,
   CreateCategory,
   UpdateCategory,
-  DeleteCategory
+  DeleteCategory,
+  GetCategory
 }

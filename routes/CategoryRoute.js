@@ -18,6 +18,7 @@ const router = express.Router()
 router.get('/apicategory', controller.GetCategories)
 //router.post('/apicategory', controller.CreateCategory)
 router.put('/apicategory/:category_id', controller.UpdateCategory)
+router.get('/apicategory/:category_id', controller.GetCategory)
 router.delete('/apicategory/:category_id', controller.DeleteCategory)
 
 //upload picture new routes
