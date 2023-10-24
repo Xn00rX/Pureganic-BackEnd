@@ -3,37 +3,56 @@ const User = require("../models/User")
 const Product = require("../models/Product")
 const Order = require("../models/Order")
 
-const getOrder = async (req, res) => {
+const showOrders = async (req, res) => {
   try {
     const userId = req.params.id
-    const order = await Order.findOne({ user: userId })
+    const order = await Order.find({ user: userId }).populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+      },
+    })
+    // const orderProducts = await cart[0].cartProducts
+    // console.log(order)
+    res.json(order)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const Orderisdone = async (req, res) => {
+  try {
+    const userId = req.params.id
+    // const order = await Order.findOne({ user: userId })
 
     const cart = await Cart.find({ user: userId })
     const orderProducts = await cart[0].cartProducts
+    console.log(cart[0].paid)
 
-    if (!order) {
-      let order = new Order({
-        user: userId,
-        orders: cart,
-        orderItems: orderProducts,
-      })
-      order.save()
-      const deleteCart = await Cart.deleteOne({ user: userId })
-      res.send(order)
-    } else {
-      console.log("heeeeelp" + orderProducts)
+    let order = new Order({
+      user: userId,
+      orderItems: orderProducts,
+    })
+    order.save()
+    // cart[0].paid = true
+    const deleteCart = await Cart.deleteOne({ user: userId })
+    res.send(order)
 
-      order.orderItems.push(orderProducts[0])
-      order.save()
-      const deleteCart = await Cart.deleteOne({ user: userId })
+    //  else {
+    //   console.log("heeeeelp" + orderProducts)
 
-      res.send(order)
-    }
+    //   order.orderItems.push(orderProducts[0])
+    //   order.save()
+    //   const deleteCart = await Cart.deleteOne({ user: userId })
+
+    //   res.send(order)
+    // }
   } catch (error) {
     console.log(error)
   }
 }
 
 module.exports = {
-  getOrder,
+  showOrders,
+  Orderisdone,
 }

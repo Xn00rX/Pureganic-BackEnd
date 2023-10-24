@@ -5,8 +5,12 @@ const orderSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cart" }],
-  orderItems: [],
+  orderItems: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number, default: 1 },
+    },
+  ],
 })
 
 const Order = mongoose.model("Order", orderSchema)
