@@ -68,6 +68,7 @@ exports.user_login_post = async (req, res) => {
         userimage: user.image,
         username: user.firstName,
         phonenumber: user.phonenumber,
+        userType: user.role,
       }
       if (!passwordMatch) {
         return res.send("Incorrect password")
@@ -76,6 +77,7 @@ exports.user_login_post = async (req, res) => {
       console.log(token)
       return res.send({ user: payload, token })
     }
+    console.log("hhhh")
   } catch (error) {
     console.error("Error:", error)
     res.send("Login failed")

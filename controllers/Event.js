@@ -1,21 +1,26 @@
-const Event = require('../models/Event')
+const Event = require("../models/Event")
 
-exports.event_add_post= (req,res)=>{
-
-console.log(req.body)
-console.log(req.file.filename)
-const event = new Event({
-  Name: req.body.Name,
-  Price: req.body.Price,
-  Longitude: req.body.Longitude,
-  Latitude:req.body.Latitude,
-  EventImage:req.file.filename,
-  EventLocation:req.file.EventLocation,
-  EventDate:req.file.EventDate
-})
-event.save()
+exports.event_add_post = (req, res) => {
+  console.log(req.body)
+  console.log(req.file.filename)
+  const event = new Event({
+    Name: req.body.Name,
+    Price: req.body.Price,
+    Longitude: req.body.Longitude,
+    Latitude: req.body.Latitude,
+    EventImage: req.file.filename,
+    EventLocation: req.file.EventLocation,
+    EventDate: req.file.EventDate,
+  })
+  event
+    .save()
+    .then((event) => {
+      res.send(event)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
 }
-
 
 exports.event_delete_get = async (req, res) => {
   const eventId = req.params.id
@@ -32,18 +37,13 @@ exports.event_delete_get = async (req, res) => {
   }
 }
 
-
-
-
-
-
 exports.event_show_get = (req, res) => {
   Event.find()
-    .then(events => {
+    .then((events) => {
       res.json(events)
     })
-    .catch(error => {
-      console.error('Error fetching events:', error)
-      res.status(500).json({ error: 'Error fetching events' })
+    .catch((error) => {
+      console.error("Error fetching events:", error)
+      res.status(500).json({ error: "Error fetching events" })
     })
 }

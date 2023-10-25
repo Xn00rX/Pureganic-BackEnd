@@ -13,7 +13,7 @@ const getCart = async (req, res) => {
           path: "product",
         },
       })
-    console.log(cart.cartProducts)
+    // console.log(cart.cartProducts)
     res.json(cart)
   } catch (error) {
     console.log(error)
