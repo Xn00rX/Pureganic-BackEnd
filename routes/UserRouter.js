@@ -29,6 +29,8 @@ router.post('/updateprofile/:id',upload.single('image') , user_CTRL.update_profi
 
 
 
+router.use('/images', express.static(path.join(__dirname, 'public/images')))
+
 //Get Https Methods
 router.get('/', (req, res) => {
   res.send('Connected Its Working, Check Your Front End ')
