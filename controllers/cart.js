@@ -1,6 +1,6 @@
-const Cart = require("../models/Cart")
-const User = require("../models/User")
-const Product = require("../models/Product")
+const Cart = require('../models/Cart')
+const User = require('../models/User')
+const Product = require('../models/Product')
 
 const getCart = async (req, res) => {
   try {
@@ -8,12 +8,12 @@ const getCart = async (req, res) => {
     const cart = await Cart.findOne({ user: userId })
       //.populate("cartProducts")
       .populate({
-        path: "cartProducts",
+        path: 'cartProducts',
         populate: {
-          path: "product",
-        },
+          path: 'product'
+        }
       })
-    console.log(cart.cartProducts)
+    // console.log(cart.cartProducts)
     res.json(cart)
   } catch (error) {
     console.log(error)
@@ -22,31 +22,31 @@ const getCart = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    console.log("help")
+    console.log('help')
     const userId = req.params.id
     const productId = req.body.id
-    console.log("test" + req.body)
+    console.log('test' + req.body)
     console.log(userId, productId)
     let cart = await Cart.findOne({ user: userId })
     let product = await Product.findById(productId)
 
     if (!cart) {
-      console.log("Create")
+      console.log('Create')
       let cart = new Cart({
         user: req.params.id,
-        cartProducts: [{ product: productId }],
+        cartProducts: [{ product: productId }]
       })
       cart.save()
       res.send(cart)
     } else {
-      console.log("Update")
+      console.log('Update')
       let productExit = await cart.cartProducts.find(
         (p) => p.product == productId
       )
       if (productExit) {
-        if (req.body.key == "add") {
+        if (req.body.key == 'add') {
           productExit.quantity++
-        } else if (req.body.key == "remove") {
+        } else if (req.body.key == 'remove') {
           ///////////////
           let productIndex = cart.cartProducts.findIndex(
             (p) => p.product == productId
@@ -91,7 +91,7 @@ const deleteFromCart = async (req, res) => {
     // let cproduct = cart.product.find(productId)
     // console.log("item id" + productItem)
     // console.log("deletedprod" + productItem)
-    console.log("test" + productIndex)
+    console.log('test' + productIndex)
 
     cart.save()
     res.send(cart)
@@ -103,5 +103,5 @@ const deleteFromCart = async (req, res) => {
 module.exports = {
   addToCart,
   getCart,
-  deleteFromCart,
+  deleteFromCart
 }

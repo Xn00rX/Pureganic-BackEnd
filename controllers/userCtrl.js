@@ -1,12 +1,12 @@
-const User = require("../models/User")
-const bcrypt = require("bcryptjs")
+const User = require('../models/User')
+const bcrypt = require('bcryptjs')
 
-const middleware = require("../middleware")
+const middleware = require('../middleware')
 
 const salt = 10
 
 exports.user_info_get = async (req, res) => {
-  console.log("a")
+  console.log('a')
   const userId = req.params.id
   const user = await User.findById(userId)
   console.log(user)
@@ -14,10 +14,10 @@ exports.user_info_get = async (req, res) => {
 }
 
 exports.user_signup_post = async (req, res) => {
-  console.log("b")
+  console.log('b')
   try {
-    console.log("Received data:", req.body)
-    console.log("File", req.file.path)
+    console.log('Received data:', req.body)
+    console.log('File', req.file.path)
 
     const email = req.body.email
     const password = req.body.password
@@ -30,34 +30,34 @@ exports.user_signup_post = async (req, res) => {
       image: req.file ? req.file.filename : null,
       gender: req.body.gender,
       role: req.body.role,
-      phonenumber: req.body.phonenumber,
+      phonenumber: req.body.phonenumber
     })
 
     user
       .save()
       .then(() => {
-        console.log("Data saved successfully")
+        console.log('Data saved successfully')
         res.json(user)
       })
       .catch((error) => {
-        console.error("Error:", error)
-        res.send("Error while saving data")
+        console.error('Error:', error)
+        res.send('Error while saving data')
       })
   } catch (error) {
     console.log(error)
-    res.send("Internal Server Error")
+    res.send('Internal Server Error')
   }
 }
 
 exports.user_login_post = async (req, res) => {
-  console.log("cc")
-  console.log("Received data for login:", req.body)
+  console.log('cc')
+  console.log('Received data for login:', req.body)
   const { email, password } = req.body
   try {
     const user = await User.findOne({ email })
 
     if (!user) {
-      return res.send("User not found")
+      return res.send('User not found')
     }
     const passwordMatch = await bcrypt.compare(password, user.password)
     console.log(user.image)
@@ -68,22 +68,23 @@ exports.user_login_post = async (req, res) => {
         userimage: user.image,
         username: user.firstName,
         phonenumber: user.phonenumber,
+        userType: user.role
       }
       if (!passwordMatch) {
-        return res.send("Incorrect password")
+        return res.send('Incorrect password')
       }
       let token = middleware.createToken(payload)
       console.log(token)
       return res.send({ user: payload, token })
     }
   } catch (error) {
-    console.error("Error:", error)
-    res.send("Login failed")
+    console.error('Error:', error)
+    res.send('Login failed')
   }
 }
 
 exports.dumyupdatepassword = async (req, res) => {
-  console.log("nn")
+  console.log('nn')
   const userId = req.params.id
   const updatedUserData = req.body
 
@@ -93,22 +94,22 @@ exports.dumyupdatepassword = async (req, res) => {
     const user = await User.findById(userId)
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" })
+      return res.status(404).json({ message: 'User not found' })
     }
 
     const passwordMatch = await bcrypt.compare(currentPassword, user.password)
 
     if (!passwordMatch) {
-      return res.json({ message: "Incorrect password" })
+      return res.json({ message: 'Incorrect password' })
     } else {
       const hash = await bcrypt.hash(newPassword, salt)
       user.password = hash
       await user.save()
-      res.json({ message: "Password updated successfully" })
+      res.json({ message: 'Password updated successfully' })
     }
   } catch (error) {
-    console.error("Error:", error)
-    res.json({ message: "Password update failed" })
+    console.error('Error:', error)
+    res.json({ message: 'Password update failed' })
   }
 }
 
@@ -119,7 +120,7 @@ exports.CheckSession = async (req, res) => {
 }
 
 exports.update_profile_put = async (req, res) => {
-  console.log("ccc")
+  console.log('ccc')
   try {
     const userId = req.params.id
     const updatedUserData = req.body
@@ -134,12 +135,12 @@ exports.update_profile_put = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData)
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" })
+      return res.status(404).json({ message: 'User not found' })
     }
 
     return res.json(updatedUser)
   } catch (error) {
     console.error(error)
-    return res.json({ message: "Internal server error" })
+    return res.json({ message: 'Internal server error' })
   }
 }
