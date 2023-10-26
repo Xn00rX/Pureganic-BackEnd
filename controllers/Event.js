@@ -9,8 +9,8 @@ exports.event_add_post = (req, res) => {
     Longitude: req.body.Longitude,
     Latitude: req.body.Latitude,
     EventImage: req.file.filename,
-    EventLocation: req.file.EventLocation,
-    EventDate: req.file.EventDate,
+    EventLocation: req.body.EventLocation,
+    EventDate: req.body.EventDate,
   })
   event
     .save()
@@ -40,7 +40,8 @@ exports.event_delete_get = async (req, res) => {
 exports.event_show_get = (req, res) => {
   Event.find()
     .then((events) => {
-      res.json(events)
+      res.send(events)
+      // res.json(events)
     })
     .catch((error) => {
       console.error("Error fetching events:", error)
