@@ -56,6 +56,7 @@ Follow these steps to set up the Pureganic Backend on your local machine.
 [Pureaganic Trello Board](https://trello.com/b/9nbbCyA3/pureaganic)
 
 
-
+#components Digram
+![Untitled Diagram drawio](https://github.com/Xn00rX/Pureganic-BackEnd/assets/147029832/8dcf4d45-ca22-4882-97a7-b6c900628f40)
 
 
