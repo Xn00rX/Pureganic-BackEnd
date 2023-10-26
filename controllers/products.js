@@ -1,9 +1,9 @@
-const Product = require('../models/Product')
-const Category = require('../models/Category')
+const Product = require("../models/Product")
+const Category = require("../models/Category")
 
 const GetProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).populate('category')
+    const products = await Product.find({}).populate("category")
     res.send(products)
   } catch (error) {
     throw error
@@ -25,7 +25,7 @@ const CreateProduct = async (req, res) => {
     console.log(req.file)
 
     const product = await Product(req.body)
-    product.productImage = req.file
+    product.productImage = "/uploads/" + req.file.filename
 
     await product.save(req.body)
     console.log(product.category)
@@ -42,20 +42,20 @@ const CreateProduct = async (req, res) => {
 
 const UpdateProduct = async (req, res) => {
   try {
-    console.log('Request Body:', req.body)
-    console.log('Uploaded File Name:', req.file.filename)
+    console.log("Request Body:", req.body)
+    console.log("Uploaded File Name:", req.file.filename)
 
     const productId = req.params.product_id
-    console.log('Product ID:', productId)
+    console.log("Product ID:", productId)
 
     const updatedFields = {
       productName: req.body.productName,
       productDesc: req.body.productDesc,
       productPrice: req.body.productPrice,
-      productImage: req.file.filename,
+      productImage: "/uploads/" + req.file.filename,
     }
 
-    console.log('Updated Fields:', updatedFields)
+    console.log("Updated Fields:", updatedFields)
 
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -63,15 +63,15 @@ const UpdateProduct = async (req, res) => {
       { new: true }
     )
     if (!updatedProduct) {
-      console.log('Product not found')
-      return res.status(404).json({ error: 'Product not found' })
+      console.log("Product not found")
+      return res.status(404).json({ error: "Product not found" })
     }
 
-    console.log('Updated Product:', updatedProduct)
+    console.log("Updated Product:", updatedProduct)
     res.json(updatedProduct)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(500).json({ error: "Internal server error" })
   }
 }
 
@@ -79,9 +79,9 @@ const DeleteProduct = async (req, res) => {
   try {
     await Product.deleteOne({ _id: req.params.product_id })
     res.send({
-      msg: 'Product Removed',
+      msg: "Product Removed",
       payload: req.params.product_id,
-      status: 'OK'
+      status: "OK",
     })
   } catch (error) {
     throw error
@@ -93,5 +93,5 @@ module.exports = {
   CreateProduct,
   UpdateProduct,
   DeleteProduct,
-  GetProduct
+  GetProduct,
 }
