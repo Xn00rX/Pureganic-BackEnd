@@ -2,9 +2,49 @@
 
 Pureagnic is an innovative e-commerce platform designed exclusively to connect farmers to buyers, empowering farmers to seamlessly showcase and market their agricultural products directly to consumers. This website is skillfully developed using the FULL MERN Stack technologies, offering a comprehensive range of CRUD (Create, Read, Update, Delete) operations for a seamless user experience for farmers.
 
+Instrustion
 
 # Entity Relationship Diagram (ERD)
 [Pureaganic ERD DIAGRAM](https://www.figma.com/file/Sb6jLv7E362Sonf5xgCi7C/project3?type=whiteboard&node-id=0-1)
+
+# Set Up Pureganic Backend
+
+Follow these steps to set up the Pureganic Backend on your local machine.
+
+1. **Fork and Clone:**
+   - Start by forking the backend repository on [GitHub](https://github.com/your-username/Pureganic-BackEnd).
+
+2. **Clone the Repository:**
+   - Open Git Bash or your preferred terminal and navigate to the directory where you want to clone the project.
+   - Clone the backend repository using the following command:
+
+     ```shell
+     git clone https://github.com/your-username/Pureganic-BackEnd.git
+     ```
+
+3. **Open Pureganic Folder:**
+   - Change your working directory to the cloned project folder:
+
+     ```shell
+     cd Pureganic-BackEnd
+     ```
+
+4. **Install Dependencies:**
+   - Use npm to install the project dependencies:
+
+     ```shell
+     npm install
+     ```
+
+5. **Run the Backend Server:**
+   - Start the backend server using Nodemon or your preferred method:
+
+     ```shell
+     nodemon
+     ```
+
+6. **Ensure the Front End Is Running:**
+   - Make sure that your Pureganic Front End is also running. Follow the setup instructions for the front end to ensure that both parts of
 
 
 # WIREFRAME
